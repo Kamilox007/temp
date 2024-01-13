@@ -1,15 +1,15 @@
 import RPi.GPIO as GPIO
 import time
 import serial
-from spotifyClass import SpotifyClass
+from spotifyClass import SpotifyRequests
 
-spotify = SpotifyRequest
+spotify = SpotifyRequests
 # Set GPIO mode and setup
 GPIO.setmode(GPIO.BCM)
 
 # Define the GPIO pins for buttons
 button_pins = [17, 22, 23, 24, 27]
-
+czyleci = False
 # Setup the serial port
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)  # Change '/dev/ttyS0' to your actual serial port
 
@@ -24,13 +24,18 @@ try:
     while True:
         if GPIO.input(17) == GPIO.LOW:
             spotify.classInterface("skipToNextRequest")
+            czyleci = True
 
         if GPIO.input(22) == GPIO.LOW:
             spotify.classInterface("skipToPreviousRequest")
+            czyleci = True
         if GPIO.input(23) == GPIO.LOW:
-            response = spotify.classInterface("playRequest")
-            if response.statu_code == 403:
+            if czyleci == True:
                 spotify.classInterface("stopRequest")
+                czyleci == False
+            else:
+                spotify.classInterface("playRequest")
+                czyleci = True
 
         if GPIO.input(24) == GPIO.LOW:
 

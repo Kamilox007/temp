@@ -32,15 +32,16 @@ try:
         if GPIO.input(23) == GPIO.LOW:
             if czyleci == True:
                 spotify.classInterface("stopRequest")
-                czyleci == False
+                czyleci = False
             else:
                 spotify.classInterface("playRequest")
                 czyleci = True
 
         if GPIO.input(24) == GPIO.LOW:
-
+            print()
         if GPIO.input(27) == GPIO.LOW:
-
+            print()
+            
         serial_data = ser.readline().decode('utf-8').strip()
         if serial_data:
             print(f"Serial Data Received: {serial_data}")
